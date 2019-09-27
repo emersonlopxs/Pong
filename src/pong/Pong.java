@@ -6,9 +6,7 @@ import java.awt.*;
 
 public class Pong extends Applet implements Runnable {
    
-    
-
-    int CursorDireito = 100, CursorEsquerdo = 100;
+    int CursorDireito = 210, CursorEsquerdo = 210;
     int MoveDireita = 0, MoveEsquerda = 0;
     int PosicaoHorizontal = 0, PosicaoVertical = 0;
     int Score1 = 0, Score2 = 0;
@@ -16,22 +14,29 @@ public class Pong extends Applet implements Runnable {
     Graphics goff, g;
     Image Imagem;
     Dimension Dimensao;
-
+    
+    int velocidade = 20;
+    
+    private int Hello()
+    {
+        return 2;
+    }
+    
     @Override
     public void init() {
         setBackground(Color.black);
         setFont(new Font("Helvetica", Font.BOLD, 15));
+        resize(1280, 720);
     }
 
     @Override
     public void paint(Graphics g)
     {
         g.setColor(Color.blue);
-
         g.fillRect(0,0, Dimensao.width, Dimensao.height);
-        g.setColor(Color.white);
         
-        g.drawString("pressione w para comecar", 100, 100);
+        g.setColor(Color.white);
+        g.drawString("pressione i para comecar " + Hello(), 80, 100);
     }
 
     @Override
@@ -39,8 +44,9 @@ public class Pong extends Applet implements Runnable {
         Dimensao = size();
         Imagem = createImage(Dimensao.width, Dimensao.height);
         goff = Imagem.getGraphics();
+        
         g = getGraphics();
-
+        
     }
 
     @Override
@@ -73,12 +79,12 @@ public class Pong extends Applet implements Runnable {
 
     public void repeat() {
         update(g);
-        pause(20);
+        pause(15);
     }
 
     // Move Bola da Esquerda para Diagonal Direita Inferior
     public int MoveBolaEDI() {
-        for (;; PosicaoVertical += 2, PosicaoHorizontal += 2) {
+        for (;; PosicaoVertical += velocidade, PosicaoHorizontal += velocidade) {
             // Se Bater na Borda Inferior
             if (PosicaoVertical > getSize().height - 10) {
                 return 2;
@@ -88,9 +94,9 @@ public class Pong extends Applet implements Runnable {
                 return 3;
             }
             // Se Bater no Cursor Direito
-            if (PosicaoVertical > CursorDireito - 5
-                    && PosicaoVertical < CursorDireito + 31
-                    && PosicaoHorizontal > 239 && PosicaoHorizontal < 246) {
+            if (PosicaoVertical > CursorDireito - 20
+                    && PosicaoVertical < CursorDireito + 201
+                    && PosicaoHorizontal > 1149 && PosicaoHorizontal < 1171) {
                 Score2++;
                 return 3;
             }
@@ -100,7 +106,7 @@ public class Pong extends Applet implements Runnable {
 
     // Move Bola da Direita para Diagonal Esquerda Inferior
     public int MoveBolaDEI() {
-        for (;; PosicaoHorizontal -= 2, PosicaoVertical += 2) {
+        for (;; PosicaoHorizontal -= velocidade, PosicaoVertical += velocidade) {
             // Se Bater na Borda Inferior
             if (PosicaoVertical > getSize().height - 10) {
                 return 4;
@@ -110,9 +116,9 @@ public class Pong extends Applet implements Runnable {
                 return 1;
             }
             // Se Bater no Cursor Esquerdo
-            if (PosicaoVertical > CursorEsquerdo - 5
-                    && PosicaoVertical < CursorEsquerdo + 31
-                    && PosicaoHorizontal > 49 && PosicaoHorizontal < 56) {
+            if (PosicaoVertical > CursorEsquerdo - 22
+                    && PosicaoVertical < CursorEsquerdo + 201
+                    && PosicaoHorizontal > 49 && PosicaoHorizontal < 71) {
                 Score1++;
                 return 1;
             }
@@ -122,7 +128,7 @@ public class Pong extends Applet implements Runnable {
 
     // Move Bola da Esquerda para Diagonal Direita Superior
     public int MoveBolaEDS() {
-        for (;; PosicaoHorizontal += 2, PosicaoVertical -= 2) {
+        for (;; PosicaoHorizontal += velocidade, PosicaoVertical -= velocidade) {
             // Se Bater na Borda Superior
             if (PosicaoVertical < 1) {
                 return 1;
@@ -132,9 +138,9 @@ public class Pong extends Applet implements Runnable {
                 return 4;
             }
             // Se Bater no Cursor Direito
-            if (PosicaoVertical > CursorDireito - 5
-                    && PosicaoVertical < CursorDireito + 31
-                    && PosicaoHorizontal > 239 && PosicaoHorizontal < 246) {
+            if (PosicaoVertical > CursorDireito - 22
+                    && PosicaoVertical < CursorDireito + 201
+                    && PosicaoHorizontal > 1149 && PosicaoHorizontal < 1171) {
                 Score2++;
                 return 4;
             }
@@ -144,7 +150,7 @@ public class Pong extends Applet implements Runnable {
 
     // Move Bola da Direita para Diagonal Esquerda Superior
     public int MoveBolaDES() {
-        for (;; PosicaoVertical -= 2, PosicaoHorizontal -= 2) {
+        for (;; PosicaoVertical -= velocidade, PosicaoHorizontal -= velocidade) {
             // Se Bater na Borda Superior
             if (PosicaoVertical < 1) {
                 return 3;
@@ -154,9 +160,9 @@ public class Pong extends Applet implements Runnable {
                 return 2;
             }
             // Se Bater no Cursor Esquerdo
-            if (PosicaoVertical > CursorEsquerdo - 5
-                    && PosicaoVertical < CursorEsquerdo + 31
-                    && PosicaoHorizontal > 49 && PosicaoHorizontal < 56) {
+            if (PosicaoVertical > CursorEsquerdo - 22
+                    && PosicaoVertical < CursorEsquerdo + 201
+                    && PosicaoHorizontal > 49 && PosicaoHorizontal < 71) {
                 Score1++;
                 return 2;
             }
@@ -183,12 +189,16 @@ public class Pong extends Applet implements Runnable {
         }
         CursorEsquerdo += MoveEsquerda;
         CursorDireito += MoveDireita;
-        goff.setColor(Color.black);
+        
+        goff.setColor(Color.pink);
+        
         goff.fillRect(0, 0, Dimensao.width, Dimensao.height);
+        
         goff.setColor(Color.red);
-        goff.fillRect(50, CursorEsquerdo, 5, 30);
-        goff.setColor(Color.blue);
-        goff.fillRect(250, CursorDireito, 5, 30);
+        
+        goff.fillRect(50, CursorEsquerdo, 20, 200);
+        goff.setColor(Color.black);
+        goff.fillRect(1150, CursorDireito, 20, 200);
         goff.setColor(Color.yellow);
         goff.fillOval(PosicaoHorizontal, PosicaoVertical, 10, 10);
         goff.setColor(Color.white);
@@ -200,18 +210,18 @@ public class Pong extends Applet implements Runnable {
     @Override
     public boolean keyDown(Event e, int key) {
         if (key == Event.DOWN) {
-            MoveEsquerda = 3;
+            MoveEsquerda = 30;
         }
         if (key == Event.UP) {
-            MoveEsquerda = -3;
+            MoveEsquerda = -30;
         }
         if (key == Event.LEFT) {
-            MoveDireita = 3;
+            MoveDireita = 30;
         }
         if (key == Event.RIGHT) {
-            MoveDireita = -3;
+            MoveDireita = -30;
         }
-        if (key == 'w' || key == 'W') {
+        if (key == 'i') {
             if (runner == null) {
             runner = new Thread(this);
             runner.start();
