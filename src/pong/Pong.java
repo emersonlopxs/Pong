@@ -24,16 +24,23 @@ public class Pong extends Applet implements Runnable {
     }
 
     @Override
+    public void paint(Graphics g)
+    {
+        g.setColor(Color.blue);
+
+        g.fillRect(0,0, Dimensao.width, Dimensao.height);
+        g.setColor(Color.white);
+        
+        g.drawString("pressione w para comecar", 100, 100);
+    }
+
+    @Override
     public void start() {
         Dimensao = size();
         Imagem = createImage(Dimensao.width, Dimensao.height);
         goff = Imagem.getGraphics();
         g = getGraphics();
-        if (runner == null) {
-            runner = new Thread(this);
-                     
-            
-        }
+
     }
 
     @Override
@@ -205,11 +212,14 @@ public class Pong extends Applet implements Runnable {
             MoveDireita = -3;
         }
         if (key == 'w' || key == 'W') {
+            if (runner == null) {
+            runner = new Thread(this);
             runner.start();
+        }
+            
         }
         return true;
     }
-
 
     @Override
     public boolean keyUp(Event e, int key) {
