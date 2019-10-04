@@ -19,12 +19,7 @@ public class Pong extends Applet implements Runnable {
    
     MediaTracker thetracker = null;
     
-    int velocidade = 10;
-    
-    private int Hello()
-    {
-        return 2;
-    }
+    float velocidade = 5;
     
     @Override
     public void init() {
@@ -42,11 +37,13 @@ public class Pong extends Applet implements Runnable {
     @Override
     public void paint(Graphics g)
     {
-        g.setColor(Color.orange);
+        g.setColor(Color.black);
         g.fillRect(0,0, Dimensao.width, Dimensao.height);
-        
         g.setColor(Color.white);
-        g.drawString("pressione i para comecar ", 550, 350);
+        
+        g.drawString("1 - LENTO ", 600, 300);
+        g.drawString("2 - NORMAL ", 600, 400);
+        g.drawString("3 - RAPIDO ", 600, 500);
     }
 
     @Override
@@ -55,8 +52,7 @@ public class Pong extends Applet implements Runnable {
         Imagem = createImage(Dimensao.width, Dimensao.height);
         goff = Imagem.getGraphics();
         
-        g = getGraphics();
-        
+        g = getGraphics();        
     }
 
     @Override
@@ -89,7 +85,7 @@ public class Pong extends Applet implements Runnable {
 
     public void repeat() {
         update(g);
-        pause(15);
+        pause(1);
     }
 
     // Move Bola da Esquerda para Diagonal Direita Inferior
@@ -101,12 +97,13 @@ public class Pong extends Applet implements Runnable {
             }
             // Se Bater na Borda Direita
             if (PosicaoHorizontal > getSize().width - 10) {
+                Score2 += -10;
                 return 3;
             }
             // Se Bater no Cursor Direito
             if (PosicaoVertical > CursorDireito - 20
                     && PosicaoVertical < CursorDireito + 201
-                    && PosicaoHorizontal > 1149 && PosicaoHorizontal < 1171) {
+                    && PosicaoHorizontal > 1164 && PosicaoHorizontal < 1171) {
                 Score2++;
                 return 3;
             }
@@ -123,12 +120,13 @@ public class Pong extends Applet implements Runnable {
             }
             // Se Bater na Borda Esquerda
             if (PosicaoHorizontal < 1) {
+                Score1 += -10;
                 return 1;
             }
             // Se Bater no Cursor Esquerdo
             if (PosicaoVertical > CursorEsquerdo - 22
                     && PosicaoVertical < CursorEsquerdo + 201
-                    && PosicaoHorizontal > 49 && PosicaoHorizontal < 71) {
+                    && PosicaoHorizontal > 64 && PosicaoHorizontal < 71) {
                 Score1++;
                 return 1;
             }
@@ -144,17 +142,19 @@ public class Pong extends Applet implements Runnable {
                 return 1;
             }
             // Se Bater na Borda Direita
-            if (PosicaoHorizontal > getSize().width - 10) {                
+            if (PosicaoHorizontal > getSize().width - 10) {
+                Score2 += -10;
                 return 4;
             }
             // Se Bater no Cursor Direito
-            if (PosicaoVertical > CursorDireito - 22
-                    && PosicaoVertical < CursorDireito + 201
-                    && PosicaoHorizontal > 1149 && PosicaoHorizontal < 1171) {
-                Score2 = -3 + (int)(Math.random() * 3);;
+            if (PosicaoVertical > CursorDireito - 9
+                    && PosicaoVertical < CursorDireito + 151
+                    && PosicaoHorizontal > 1164 && PosicaoHorizontal < 1171) {
+                Score2 = -2 + (int)(Math.random() * 8);;
                 return 4;
             }
             repeat();
+            velocidade += 0.001;
         }
     }
 
@@ -167,13 +167,16 @@ public class Pong extends Applet implements Runnable {
             }
             // Se Bater na Borda Esquerda
             if (PosicaoHorizontal < 1) {
+//                velocidade = 1;
+                Score1 += -10;
                 return 2;
+                
             }
             // Se Bater no Cursor Esquerdo
-            if (PosicaoVertical > CursorEsquerdo - 22
-                    && PosicaoVertical < CursorEsquerdo + 201
-                    && PosicaoHorizontal > 49 && PosicaoHorizontal < 71) {
-                Score1 += -3 + (int)(Math.random() * 3);;
+            if (PosicaoVertical > CursorEsquerdo - 9
+                    && PosicaoVertical < CursorEsquerdo + 151
+                    && PosicaoHorizontal > 64 && PosicaoHorizontal < 71) {
+                Score1 += -2 + (int)(Math.random() * 8);;
                 return 2;
             }
             repeat();
@@ -190,11 +193,11 @@ public class Pong extends Applet implements Runnable {
     @Override
     public void update(Graphics g) {
         if ((CursorEsquerdo <= 0 && MoveEsquerda < 0)
-                || (CursorEsquerdo >= getSize().height - 70 && MoveEsquerda > 0)) {
+                || (CursorEsquerdo >= getSize().height - 150 && MoveEsquerda > 0)) {
             MoveEsquerda = 0;
         }
         if ((CursorDireito <= 0 && MoveDireita < 0)
-                || (CursorDireito >= getSize().height - 70 && MoveDireita > 0)) {
+                || (CursorDireito >= getSize().height - 150 && MoveDireita > 0)) {
             MoveDireita = 0;
         }
         CursorEsquerdo += MoveEsquerda;
@@ -207,51 +210,128 @@ public class Pong extends Applet implements Runnable {
         
         // goff.fillRect(0, 0, Dimensao.width, Dimensao.height);
         
-        goff.setColor(Color.blue);
-        goff.fillRect(50, CursorEsquerdo, 7, 70);
         goff.setColor(Color.green);
-        goff.fillRect(1150, CursorDireito, 7, 70);
+        goff.fillRect(66, CursorEsquerdo, 7, 150);
+        goff.setColor(Color.red);
+        goff.fillRect(1170, CursorDireito, 7, 150);
         goff.setColor(Color.yellow);
-        goff.fillOval(PosicaoHorizontal, PosicaoVertical, 15, 15);
+        goff.fillOval(PosicaoHorizontal, PosicaoVertical, 10, 10);
         
-        goff.setColor(Color.white);
-        goff.drawString("Player A: " + Score1, 500, 40);
-        goff.drawString("Player B: " + Score2, 700, 40);
+//        goff.setColor(Color.red);
+//        goff.fillOval(PosicaoHorizontal, PosicaoVertical, 10, 10);
+        
+        goff.setColor(Color.green);
+        goff.drawString("JOGADOR A" , 100, 40);
+        goff.drawString(" " + Score1, 400, 40);
+        
+        goff.drawString(" " + velocidade, 620, 40);
+               
+        goff.setColor(Color.red);
+        goff.drawString("JOGADOR B", 1100, 40);
+        goff.drawString(" " + Score2, 900, 40);
         g.drawImage(Imagem, 0, 0, this);
     }
 
     @Override
     public boolean keyDown(Event e, int key) {
         if (key == Event.UP) {
-            MoveEsquerda = 20;
+            MoveDireita = 15;
         }
         if (key == Event.DOWN) {
-            MoveEsquerda = -20;
+            MoveDireita = -15;
         }
         if (key == 'w') {
-            MoveDireita = 20;
+            MoveEsquerda = 15;
         }
         if (key == 's') {
-            MoveDireita = -20;
+            MoveEsquerda = -15;
         }
+        
         if (key == 'i') {
             if (runner == null) {
             runner = new Thread(this);
             runner.start();
+            }
         }
             
+        if (key == '1') {
+            velocidade = 1;
+             if (runner == null) {
+            runner = new Thread(this);
+            runner.start();
+             }
+        }
+        
+        if (key == '2') {
+            velocidade = 3;
+             if (runner == null) {
+            runner = new Thread(this);
+            runner.start();
+             }
+        }
+        
+        if (key == '3')  {
+            velocidade = 5;
+             if (runner == null) {
+            runner = new Thread(this);
+            runner.start();
+             }
         }
         return true;
-    }
+        }
+        
 
     @Override
     public boolean keyUp(Event e, int key) {
         if (key == Event.DOWN || key == Event.UP) {
-            MoveEsquerda = 0;
-        }
-        if (key == 'w' || key == 's') {
             MoveDireita = 0;
         }
+        if (key == 'w' || key == 's') {
+            MoveEsquerda = 0;
+        }
+        if (key == 'q') {
+            
+            runner.stop();
+            g.setColor(Color.orange);
+            g.fillRect(0,0, Dimensao.width, Dimensao.height);
+            g.setColor(Color.black);
+            
+            g.drawString("GAVE OVER", 610, 350);
+            
+            if (Score1 > Score2) {
+                g.drawString("JOGADOR A VENCEU", 580, 400);
+            } else if (Score2 > Score1) {
+                g.drawString("JOGADOR B VENCEU", 580, 400);
+            } else {
+                g.drawString("EMPATE", 630, 400);
+            }
+            
+            g.drawString("JOGADOR A: " + Score1, 600, 450);
+            g.setColor(Color.black);
+            g.drawString("JOGADOR B: " + Score2, 600, 500);
+        }
+//        
+        if(velocidade > 6) {
+            runner.stop();
+            g.setColor(Color.orange);
+            g.fillRect(0,0, Dimensao.width, Dimensao.height);
+            g.setColor(Color.black);
+            
+            g.drawString("GAME OVER", 610, 350);
+            
+            if (Score1 > Score2) {
+                g.drawString("JOGADOR A VENCEU", 600, 400);
+            } else if (Score2 > Score1) {
+                g.drawString("JOGADOR B VENCEU", 600, 400);
+            } else {
+                g.drawString("EMPATE", 630, 400);
+            }
+            
+            g.drawString("JOGADOR A: " + Score1, 600, 450);
+            g.setColor(Color.black);
+            g.drawString("JOGADOR B: " + Score2, 600, 500);
+        }
+        
         return true;
     }
 }
